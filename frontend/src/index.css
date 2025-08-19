@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+
+@font-face {
+    font-family: main;
+    src: url('./fonts/timeless/Timeless.ttf');
+}
+
+body{
+    font-family: main;
+}
