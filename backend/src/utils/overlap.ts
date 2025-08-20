@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { Availability } from "../types";
 
 export function findOverlap(avails: Availability[]) {
-  const rangesUTC = avails.map(a => {
+  const rangesUTC = avails.map((a) => {
     const startUTC = DateTime.fromISO(a.start, { zone: a.timezone }).toUTC();
     const endUTC = DateTime.fromISO(a.end, { zone: a.timezone }).toUTC();
     return { start: startUTC, end: endUTC };

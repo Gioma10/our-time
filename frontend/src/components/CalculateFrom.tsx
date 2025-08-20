@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Hourglass } from "lucide-react";
 import { useState, useEffect } from "react";
+import Input from "./Input";
 
 const CalculateForm = () => {
   const [time, setTime] = useState(new Date());
@@ -12,24 +13,16 @@ const CalculateForm = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <form action="" className=" border p-10 flex flex-col gap-5 rounded-xl">
-      <h2 className="text-4xl">
+    <form action="" className=" border p-10 flex flex-col gap-10 rounded-xl items-center">
+      <h2 className="text-6xl text-center">
         Calculate <span className="text-cyan-600">Timezone</span>
       </h2>
       <div className="gap-5 flex  items-center">
-        <input
-          type="text"
-          placeholder="Your Country"
-          className="outline-none px-4 py-2 border rounded-xl"
-        />
+        <Input />
         <motion.div whileTap={{ rotate: 360 }}>
           <Hourglass />
         </motion.div>
-        <input
-          type="text"
-          placeholder="Friend Country"
-          className="outline-none px-4 py-2 border rounded-xl"
-        />
+        <Input />
       </div>
       <div className="flex justify-center items-center">
         <span className="text-xl">{time.toLocaleTimeString("it-IT")}</span>
