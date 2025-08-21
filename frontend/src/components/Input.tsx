@@ -1,5 +1,13 @@
 import { useState } from "react";
 import { getNames } from "country-list";
+import {
+  UseFormRegister,
+  UseFormSetValue,
+  RegisterOptions,
+  FieldError,
+} from "react-hook-form";
+import { motion } from "motion/react";
+import { shakeError } from "../transition/animation";
 
 const countries = getNames();
 
@@ -11,17 +19,27 @@ type FormData = {
 interface InputProps {
   placeholder: string;
   name: keyof FormData;
-  setValue: (name: keyof FormData, value: string) => void;
+  register: UseFormRegister<FormData>;
+  setValue: UseFormSetValue<FormData>;
+  rules?: RegisterOptions<FormData, keyof FormData>;
+  error?: FieldError;
 }
 
-const Input: React.FC<InputProps> = ({ setValue, name, placeholder }) => {
+const Input: React.FC<InputProps> = ({
+  error,
+  placeholder,
+  name,
+  register,
+  setValue,
+  rules,
+}) => {
   const [query, setQuery] = useState("");
   const [filtered, setFiltered] = useState<string[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
-    setValue(name, value);
+    setValue(name, value, { shouldValidate: true });
 
     if (value.length > 0) {
       setFiltered(
@@ -34,19 +52,20 @@ const Input: React.FC<InputProps> = ({ setValue, name, placeholder }) => {
 
   const handleSelect = (country: string) => {
     setQuery(country);
-    setValue(name, country);
+    setValue(name, country, { shouldValidate: true });
     setFiltered([]);
   };
 
   return (
     <div className="relative">
-      <input
+      <motion.input
+        animate={error ? shakeError() : undefined}
         type="text"
+        placeholder={placeholder}
+        {...register(name, rules)}
         value={query}
         onChange={handleChange}
-        placeholder={placeholder}
-        className="outline-none px-4 py-2 border rounded-xl w-full"
-
+        className={`outline-none px-4 py-2 rounded-xl w-full ${error ? 'border border-red-600' : 'border'}`}
       />
       {filtered.length > 0 && (
         <ul className="absolute top-full left-0 w-full bg-white text-black border rounded-lg max-h-40 overflow-y-auto shadow-md z-10">

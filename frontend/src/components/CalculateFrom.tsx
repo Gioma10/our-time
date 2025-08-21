@@ -10,6 +10,7 @@ type FormData = {
 
 const CalculateForm = () => {
   const {
+    register,
     setValue,
     handleSubmit,
     formState: { errors },
@@ -27,21 +28,25 @@ const CalculateForm = () => {
         Calculate <span className="text-cyan-600">Timezone</span>
       </h2>
       <div className="gap-5 flex  items-center">
-        <Input placeholder="My Country" name="myCountry" setValue={setValue} />
-        {errors.myCountry && (
-          <p className="text-red-500">My Country is required</p>
-        )}
+        <Input
+          placeholder="My Country"
+          name="myCountry"
+          register={register}
+          setValue={setValue}
+          rules={{ required: "My Country is required" }}
+          error={errors.myCountry}
+        />
         <motion.div whileTap={{ rotate: 360 }}>
           <Hourglass />
         </motion.div>
         <Input
           placeholder="Friend Country"
           name="yourCountry"
+          register={register}
           setValue={setValue}
+          rules={{ required: "Friend Country is required" }}
+          error={errors.yourCountry}
         />
-        {errors.yourCountry && (
-          <p className="text-red-500">Friend Country is required</p>
-        )}
       </div>
       <div className="flex justify-center items-center">
         <button className="py-2 px-4 rounded-xl border shadow-md hover:shadow-cyan-600 transition-all duration-300 cursor-pointer">
